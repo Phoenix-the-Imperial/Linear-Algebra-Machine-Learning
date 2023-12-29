@@ -1,11 +1,10 @@
 #include <iostream>
-#include <linear_regression.hpp>
-#include <complex>
+// include <linear_regression.hpp>
+#include <matrix.hpp>
 
 int main()
 {
-    int x = 2;
-    std::complex z = std::conj(x);
-    std::cout << z << std::endl;
+    auto m = ML::matrix({1, 2, 3, 4, 5, 6}, 2, 3);
+    std::cout << m;
     return 0;
 }
