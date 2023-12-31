@@ -14,8 +14,9 @@ int main()
     //for (size_t j = 0; j < 3; j++)
     //    b.at(0, j) = j + 1;
     auto a = ML::multiply<float>(m, n);
+    auto b = ML::transpose(a);
     //n.resize(2, 1);
-    std::cout << m << "\n\n" << n << "\n\n" << a;
+    std::cout << m << "\n\n" << n << "\n\n" << a << "\n\n" << b;
     //std::cout << b;
     return 0;
 }

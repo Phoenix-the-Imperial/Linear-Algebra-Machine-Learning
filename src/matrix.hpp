@@ -26,8 +26,10 @@ namespace ML
         public:
         matrix(std::initializer_list<T>, const size_t&, const size_t&);
         matrix(const size_t&, const size_t&);
+        matrix(void);
 
         T& at(const size_t&, const size_t&);
+        T get_at(const size_t&, const size_t&) const;
         size_t num_row(void) const;
         size_t num_col(void) const;
         std::tuple<size_t, size_t> size(void);
@@ -61,6 +63,15 @@ namespace ML
     {
         this->resize(num_row, num_col);
     }
+
+    template <class T>
+    matrix<T>::matrix()
+    {
+        this->num_rows = 0;
+        this->num_cols = 0;
+        this->rows.resize(0);
+    }
+
     // Do not use!
     template <class T>
     void matrix<T>::reserve(const size_t& num_row, const size_t& num_col)
@@ -94,6 +105,12 @@ namespace ML
     }
 
     template <class T>
+    T matrix<T>::get_at(const size_t& row, const size_t& col) const
+    {
+        return this->rows.at(row).at(col);
+    }
+
+    template <class T>
     size_t matrix<T>::num_row() const
     {
         return this->num_rows;
@@ -115,15 +132,15 @@ namespace ML
         {
             for (k = 0; k < num_col - 1; k++)
             {
-                output_stream << m.at(j, k) << '\t';
+                output_stream << m.get_at(j, k) << '\t';
             }
-            output_stream << m.at(j, num_col - 1) << '\n';
+            output_stream << m.get_at(j, num_col - 1) << '\n';
         }
         return output_stream;
     }
 
     template <class T>
-    matrix<T> multiply(matrix<T>& a, matrix<T>& b)
+    matrix<T> multiply(const matrix<T>& a, const matrix<T>& b)
     {
         size_t r = a.num_row();
         size_t p = a.num_col();
@@ -137,11 +154,24 @@ namespace ML
             for (k = 0; k < c; k++)
             {
                 for (l = 0; l < p; l++)
-                    sum += a.at(j, l) * b.at(l, k);
+                    sum += a.get_at(j, l) * b.get_at(l, k);
                 ret.at(j, k) = sum;
                 sum = 0;
             }
         }
+        return ret;
+    }
+
+    template <class T>
+    matrix<T> transpose(const matrix<T>& m)
+    {
+        size_t r = m.num_row();
+        size_t c = m.num_col();
+        matrix<T> ret = matrix<T>(c, r);
+        size_t j, k;
+        for (j = 0; j < r; j++)
+            for (k = 0; k < c; k++)
+                ret.at(k, j) = m.get_at(j, k);
         return ret;
     }
 }

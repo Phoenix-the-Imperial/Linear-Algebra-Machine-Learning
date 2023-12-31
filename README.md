@@ -1,8 +1,12 @@
 # Machine Learning
 ## Description
- A Machine Learning library written in C++. Current Version: ML-0.0.1.
+ A Machine Learning library written in C++. Current Version: ML-0.0.3.
+## Version: ML-0.0.3
+ The following changes were made:
+ 1. Defined a getter (`get_at()`) for matrix elements that can not mutate the element it is accessing (unlike `at()`).
+ 2. Implemented a `transpose()` function for matrices.
 ## Version: ML-0.0.2
- Defined the matrix functions resize(), size() and a new constructor. Also implemented matrix multiplication.
+ Defined the matrix functions `resize()`, `size()` and a new constructor. Also implemented matrix multiplication.
 ## Version: ML-0.0.1
  Defined a basic matrix class.
 ## Version: ML-0.0.0
