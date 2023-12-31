@@ -25,10 +25,14 @@ namespace ML
             std::vector<std::vector<T>> rows;
         public:
         matrix(std::initializer_list<T>, const size_t&, const size_t&);
+        matrix(const size_t&, const size_t&);
 
         T& at(const size_t&, const size_t&);
         size_t num_row(void) const;
         size_t num_col(void) const;
+        std::tuple<size_t, size_t> size(void);
+        void reserve(const size_t&, const size_t&);
+        void resize(const size_t&, const size_t&);
     };
 
     template <class T>
@@ -50,6 +54,36 @@ namespace ML
         }
         this->num_rows = num_row;
         this->num_cols = num_col;
+    }
+
+    template <class T>
+    matrix<T>::matrix(const size_t& num_row, const size_t& num_col)
+    {
+        this->resize(num_row, num_col);
+    }
+    // Do not use!
+    template <class T>
+    void matrix<T>::reserve(const size_t& num_row, const size_t& num_col)
+    {
+        this->rows.resize(num_row);
+        for (size_t j = 0; j < num_row; j++)
+            this->rows.at(j).reserve(num_col);
+    }
+
+    template <class T>
+    void matrix<T>::resize(const size_t& num_row, const size_t& num_col)
+    {
+        this->rows.resize(num_row);
+        for (size_t j = 0; j < num_row; j++)
+            this->rows.at(j).resize(num_col);
+        this->num_rows = num_row;
+        this->num_cols = num_col;
+    }
+
+    template <class T>
+    std::tuple<size_t, size_t> matrix<T>::size(void)
+    {
+        return std::tuple<size_t, size_t>(this->num_row(), this->num_col());
     }
 
     template <class T>
@@ -86,6 +120,29 @@ namespace ML
             output_stream << m.at(j, num_col - 1) << '\n';
         }
         return output_stream;
+    }
+
+    template <class T>
+    matrix<T> multiply(matrix<T>& a, matrix<T>& b)
+    {
+        size_t r = a.num_row();
+        size_t p = a.num_col();
+        size_t c = b.num_col();
+        // Check if the matrices are compatible
+        matrix<T> ret = matrix<T>(r, c);
+        T sum = (T) 0;
+        size_t j, k, l;
+        for (j = 0; j < r; j++)
+        {
+            for (k = 0; k < c; k++)
+            {
+                for (l = 0; l < p; l++)
+                    sum += a.at(j, l) * b.at(l, k);
+                ret.at(j, k) = sum;
+                sum = 0;
+            }
+        }
+        return ret;
     }
 }
 #endif
