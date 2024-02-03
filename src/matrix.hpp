@@ -174,5 +174,36 @@ namespace ML
                 ret.at(k, j) = m.get_at(j, k);
         return ret;
     }
+
+    template <class T>
+    std::tuple<matrix<T>, matrix<T>> LU_Doolittle(const matrix<T>& A)
+    {
+        // Check if the argument matrix is diagonal
+        size_t n = A.num_col();
+        matrix<T> L = matrix<T>(n, n);
+        matrix<T> U = matrix<T>(n, n);
+        size_t i, j, k;
+        T sum;
+        for (k = 0; k < n; k++)
+        {
+            L.at(k, k) = 1;
+            for (j = k; j < n; j++)
+            {
+                sum = 0;
+                for (i = 0; i < k; i++)
+                    sum += L.get_at(k, i) * U.get_at(i, j);
+                U.at(k, j) = A.get_at(k, j) - sum;
+            }
+            for (j = k + 1; j < n; j++)
+            {
+                sum = 0;
+                for (i = 0; i < k; i++)
+                    sum += L.get_at(j, i) * U.get_at(i, k);
+                L.at(j, k) = (A.get_at(j, k) - sum) / U.get_at(k, k);
+            }
+        }
+        std::tuple<matrix<T>, matrix<T>> ret = std::tuple<matrix<T>, matrix<T>>(L, U);
+        return ret;
+    }
 }
 #endif

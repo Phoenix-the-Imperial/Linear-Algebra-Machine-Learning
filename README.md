@@ -1,6 +1,8 @@
 # Machine Learning
 ## Description
- A Machine Learning library written in C++. Current Version: ML-0.0.3.
+ A Machine Learning library written in C++. Current Version: ML-0.0.4.
+## Version: ML-0.0.4
+ Added LU factorization using the Doolittle algorithm.
 ## Version: ML-0.0.3
  The following changes were made:
  1. Defined a getter (`get_at()`) for matrix elements that can not mutate the element it is accessing (unlike `at()`).

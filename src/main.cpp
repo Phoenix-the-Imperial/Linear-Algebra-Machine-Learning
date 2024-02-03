@@ -18,5 +18,17 @@ int main()
     //n.resize(2, 1);
     std::cout << m << "\n\n" << n << "\n\n" << a << "\n\n" << b;
     //std::cout << b;
+    /*
+    auto c = a;
+    c.at(1, 1) += 1;
+    std::cout << "\n\n" << a << "\n\n" << c;
+    */
+    auto N = ML::matrix<float>({4, 3, 6, 3}, 2, 2);
+    auto M = ML::matrix<float>({1, 2, 3, 1, 4, 9, 1, 8, 27}, 3, 3);
+    auto LU = ML::LU_Doolittle(M);
+    auto L = std::get<0>(LU);
+    auto U = std::get<1>(LU);
+    auto M_dot = ML::multiply(L, U);
+    std::cout << "\n\n" << M << "\n\n" << L << "\n\n" << U << "\n\n" << M_dot;
     return 0;
 }
