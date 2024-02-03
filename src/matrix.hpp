@@ -162,6 +162,20 @@ namespace ML
         return ret;
     }
 
+    template <class U, class T>
+    matrix<T> multiply(const U& scalar, const matrix<T>& a)
+    {
+        T s = T(scalar);
+        size_t m = a.num_row();
+        size_t n = a.num_col();
+        matrix<T> ret = matrix<T>(m, n);
+        size_t j, k;
+        for (j = 0; j < m; j++)
+            for (k = 0; k < n; k++)
+                ret.at(j, k) = s * a.get_at(j, k);
+        return ret;
+    }
+
     template <class T>
     matrix<T> transpose(const matrix<T>& m)
     {
@@ -172,6 +186,29 @@ namespace ML
         for (j = 0; j < r; j++)
             for (k = 0; k < c; k++)
                 ret.at(k, j) = m.get_at(j, k);
+        return ret;
+    }
+
+    template <class T>
+    matrix<T> zeros(const size_t& m, const size_t& n)
+    {
+        matrix<T> ret = matrix<T>(m, n);
+        size_t j, k;
+        for (j = 0; j < m; j++)
+            for (k = 0; k < n; k++)
+                ret.at(j, k) = 0;
+        return ret;
+    }
+
+
+    template <class T>
+    matrix<T> ones(const size_t& m, const size_t& n)
+    {
+        matrix<T> ret = matrix<T>(m, n);
+        size_t j, k;
+        for (j = 0; j < m; j++)
+            for (k = 0; k < n; k++)
+                ret.at(j, k) = 1;
         return ret;
     }
 

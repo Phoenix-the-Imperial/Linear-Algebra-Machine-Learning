@@ -30,5 +30,10 @@ int main()
     auto U = std::get<1>(LU);
     auto M_dot = ML::multiply(L, U);
     std::cout << "\n\n" << M << "\n\n" << L << "\n\n" << U << "\n\n" << M_dot;
+    auto Z = ML::zeros<float>(3, 2);
+    auto O = ML::ones<float>(2, 3);
+    std::cout << "\n\n" << Z << "\n\n" << O;
+    auto O_dot = ML::multiply(7, O);
+    std::cout << "\n\n" << O_dot;
     return 0;
 }

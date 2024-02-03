@@ -1,6 +1,10 @@
 # Machine Learning
 ## Description
- A Machine Learning library written in C++. Current Version: ML-0.0.4.
+ A Machine Learning library written in C++. Current Version: ML-0.0.5.
+## Version: ML-0.0.5
+ The following changes were made:
+ 1. Added the functions `zeros()` and `ones()` for creating matrices with only 0 entries and 1 entries respectively.
+ 2. Added scalar-matrix multiplication.
 ## Version: ML-0.0.4
  Added LU factorization using the Doolittle algorithm.
 ## Version: ML-0.0.3
