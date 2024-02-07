@@ -1,6 +1,10 @@
 # Machine Learning
 ## Description
- A Machine Learning library written in C++. Current Version: ML-0.0.7.
+ A Machine Learning library written in C++. Current Version: ML-0.0.8.
+## Version: ML-0.0.8
+ The following changes were made:
+ 1. Added functions for solving a set of linear equations for upper and lower triangular matrices with back substitution and forward substitution respectively.
+ 2. Combining the above two functions, named `solve_back_substitution()` and `solve_forward_substitution()`, defined a function called `LU_solve()` for solving a set of linear equations using LU-decomposition. Note that, this LU-decomposition uses the Doolittle algorithm added in Version ML-0.0.4.
 ## Version: ML-0.0.7
  The following changes were made:
  1. Added vector to matrix conversion.

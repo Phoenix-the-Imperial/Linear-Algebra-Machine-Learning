@@ -46,5 +46,17 @@ int main()
     std::cout << "\n\n" << R;
     auto S = ML::multiply<float>(O_dot_dot, v);
     std::cout << "\n\n" << S;
+    auto x = ML::solve_back_substitution<float>(U, R);
+    std::cout << "\n\n" << x;
+    auto R_dot = ML::multiply(U, x);
+    std::cout << "\n\n" << R_dot;
+    auto y = ML::solve_forward_substitution<float>(L, R);
+    std::cout << "\n\n" << y;
+    auto R_dot_dot = ML::multiply(L, y);
+    std::cout << "\n\n" << R_dot_dot;
+    auto X = ML::LU_solve(M, R);
+    std::cout << "\n\n" << X;
+    auto R_prime = ML::multiply(M, X);
+    std::cout << "\n\n" << R_prime;
     return 0;
 }

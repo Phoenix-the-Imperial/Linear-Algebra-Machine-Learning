@@ -313,5 +313,54 @@ namespace ML
         std::tuple<matrix<T>, matrix<T>> ret = std::tuple<matrix<T>, matrix<T>>(L, U);
         return ret;
     }
+
+    template <class T>
+    matrix<T> solve_back_substitution(const matrix<T>& A, const matrix<T>& b)
+    {
+        size_t n = A.num_col();
+        // Check if b has same number of rows
+        size_t i, j, k;
+        T sum;
+        matrix<T> x = matrix<T>(n, 1);
+        for (i = 0; i < n; i++)
+        {
+            j = n - 1 - i;
+            sum = 0;
+            for (k = j + 1; k < n; k++)
+                sum += A.get_at(j, k) * x.get_at(k, 0);
+            x.at(j, 0) = (b.get_at(j, 0) - sum) / A.get_at(j, j);
+        }
+        return x;
+    }
+
+    template <class T>
+    matrix<T> solve_forward_substitution(const matrix<T>& A, const matrix<T>& b)
+    {
+        size_t n = A.num_col();
+        // Check if b has same number of rows
+        size_t j, k;
+        T sum;
+        matrix<T> x = matrix<T>(n, 1);
+        for (j = 0; j < n; j++)
+        {
+            sum = 0;
+            for (k = 0; k < j; k++)
+                sum += A.get_at(j, k) * x.get_at(k, 0);
+            x.at(j, 0) = (b.get_at(j, 0) - sum) / A.get_at(j, j);
+        }
+        return x;
+    }
+
+    template <class T>
+    matrix<T> LU_solve(const matrix<T>& A, const matrix<T>& b)
+    {
+        std::tuple<matrix<T>, matrix<T>> LU_decomposition = LU_Doolittle(A);
+        matrix<T> L = std::get<0>(LU_decomposition);
+        matrix<T> U = std::get<1>(LU_decomposition);
+        // Solve L(Ux) = b for (Ux).
+        matrix<T> x_intermediate = solve_forward_substitution(L, b);
+        matrix<T> x = solve_back_substitution(U, x_intermediate);
+        return x;
+    }
 }
 #endif
