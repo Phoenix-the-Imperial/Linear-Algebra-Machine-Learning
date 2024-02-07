@@ -35,5 +35,11 @@ int main()
     std::cout << "\n\n" << Z << "\n\n" << O;
     auto O_dot = ML::multiply(7, O);
     std::cout << "\n\n" << O_dot;
+    auto O_dot_dot = ML::add(1, O_dot);
+    std::cout << "\n\n" << O_dot_dot;
+    auto P = ML::add(O_dot_dot, O);
+    std::cout << "\n\n" << P;
+    auto Q = ML::hadamard_product(P, O_dot_dot);
+    std::cout << "\n\n" << Q;
     return 0;
 }

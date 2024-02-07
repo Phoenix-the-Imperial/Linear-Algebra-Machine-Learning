@@ -1,6 +1,10 @@
 # Machine Learning
 ## Description
- A Machine Learning library written in C++. Current Version: ML-0.0.5.
+ A Machine Learning library written in C++. Current Version: ML-0.0.6.
+## Version: ML-0.0.6
+ The following changes were made:
+ 1. Added matrix addition and entry-wise scalar-matrix addition.
+ 2. Added Hadamard product of matrices.
 ## Version: ML-0.0.5
  The following changes were made:
  1. Added the functions `zeros()` and `ones()` for creating matrices with only 0 entries and 1 entries respectively.
