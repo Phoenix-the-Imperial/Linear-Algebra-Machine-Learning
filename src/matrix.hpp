@@ -24,6 +24,7 @@ namespace ML
             size_t num_cols;
             std::vector<std::vector<T>> rows;
         public:
+        matrix(const std::vector<T>&);
         matrix(std::initializer_list<T>, const size_t&, const size_t&);
         matrix(const size_t&, const size_t&);
         matrix(void);
@@ -37,8 +38,17 @@ namespace ML
         void resize(const size_t&, const size_t&);
     };
 
+
     template <class T>
-    matrix<T>::matrix(std::initializer_list<T> elements, const size_t& num_row, const size_t& num_col)
+    matrix<T>::matrix(const std::vector<T>& v)
+    {
+        size_t n = v.size();
+        this->resize(n, 1);
+        for (size_t i = 0; i < n; i++)
+            this->at(i, 0) = v.at(i);
+    }
+
+    template <class T> matrix<T>::matrix(std::initializer_list<T> elements, const size_t& num_row, const size_t& num_col)
     { 
         this->rows.resize(num_row);
         size_t j = 0, k = 0;
@@ -158,6 +168,25 @@ namespace ML
                 ret.at(j, k) = sum;
                 sum = 0;
             }
+        }
+        return ret;
+    }
+
+    template <class T>
+    matrix<T> multiply(const matrix<T>& a, const std::vector<T>& v)
+    {
+        size_t r = a.num_row();
+        size_t c = a.num_col();
+        // Check if the matrix and the vector are compatible
+        matrix<T> ret = matrix<T>(r, 1);
+        T sum = (T) 0;
+        size_t j, k;
+        for (j = 0; j < r; j++)
+        {
+            for (k = 0; k < c; k++)
+                sum += a.get_at(j, k) * v.at(k);
+            ret.at(j, 0) = sum;
+            sum = 0;
         }
         return ret;
     }

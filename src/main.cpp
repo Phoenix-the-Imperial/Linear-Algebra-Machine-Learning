@@ -41,5 +41,10 @@ int main()
     std::cout << "\n\n" << P;
     auto Q = ML::hadamard_product(P, O_dot_dot);
     std::cout << "\n\n" << Q;
+    std::vector<float> v = {0, 1, 2};
+    auto R = ML::matrix<float>(v);
+    std::cout << "\n\n" << R;
+    auto S = ML::multiply<float>(O_dot_dot, v);
+    std::cout << "\n\n" << S;
     return 0;
 }
