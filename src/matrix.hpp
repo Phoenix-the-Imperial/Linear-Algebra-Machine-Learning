@@ -404,6 +404,16 @@ namespace ML
     }
 
     template <class T>
+    matrix<T> LU_solve(const matrix<T>& L, const matrix<T> U, const matrix<T>& b)
+    {
+        // Solve L(Ux) = b for (Ux).
+        matrix<T> x_intermediate = solve_forward_substitution(L, b);
+        // Solve Ux = b for x.
+        matrix<T> x = solve_back_substitution(U, x_intermediate);
+        return x;
+    }
+
+    template <class T>
     matrix<T> LU_inverse(const matrix<T>& A)
     {
         size_t r = A.num_row();
@@ -412,15 +422,26 @@ namespace ML
         matrix<T> ret = matrix<T>(r, c);
         matrix<T> solved_col = matrix<T>(r, 1);
         matrix<T> identity_col = zeros<T>(r, 1);
+        // Store the LU decomposition of the matrix A
+        std::tuple<matrix<T>, matrix<T>> LU = LU_Doolittle(A);
+        matrix<T> L = std::get<0>(LU);
+        matrix<T> U = std::get<1>(LU);
         size_t k;
         for (k = 0; k < c; k++)
         {
             identity_col.at(k, 0) = 1;
             if (k > 0) identity_col.at(k - 1, 0) = 0;
-            solved_col = LU_solve(A, identity_col);
+            solved_col = LU_solve(L, U, identity_col);
             ret.set_col(k, solved_col);
         }
         return ret;
+    }
+
+    // The Moore-Penrose inverse of a matrix
+    template <class T>
+    matrix<T> pseudo_inverse(const matrix<T>& A)
+    {
+        return multiply(LU_inverse(multiply(transpose(A), A)), transpose(A));
     }
 }
 #endif

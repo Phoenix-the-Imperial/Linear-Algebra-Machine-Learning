@@ -71,5 +71,11 @@ int main()
     std::cout << "\n\n" << M_inverse;
     auto I_check = ML::multiply(M, M_inverse);
     std::cout << "\n\n" << I_check;
+    auto Matrix = ML::matrix<float>({1, 0, 0, 1, 0, 1}, 3, 2);
+    std::cout << "\n\n" << Matrix;
+    auto MPI = ML::pseudo_inverse(Matrix);
+    std::cout << "\n\n" << MPI;
+    auto Matrix_dot = ML::multiply(MPI, Matrix);
+    std::cout << "\n\n" << Matrix_dot;
     return 0;
 }

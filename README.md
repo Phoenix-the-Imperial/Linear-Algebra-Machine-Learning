@@ -1,6 +1,11 @@
 # Machine Learning
 ## Description
- A Machine Learning library written in C++. Current Version: ML-0.0.9.
+ A Machine Learning library written in C++. Current Version: ML-0.0.10.
+## Version: ML-0.0.10
+ The following changes were made:
+ 1. Implemented a function to solve a system of linear equations given the L and U matrices as arguments.
+ 2. Re-implemented the inverse of a matrix using LU decomposition (`LU_inverse()`) to only compute the LU decomposition at the beginning and store the matrices for reusing for getting each column instead of recomputing the LU decomposition each time.
+ 3. Implemented a function called `pseudo_inverse()` for the Moore-Penrose inverse of a matrix.
 ## Version: ML-0.0.9
  The following changes were made:
  1. Implemented two member functions `set_row()` and `set_col()` for setting rows and columns of a matrix respectively.
