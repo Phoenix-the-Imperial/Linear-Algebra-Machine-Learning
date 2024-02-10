@@ -1,6 +1,10 @@
 # Machine Learning
 ## Description
- A Machine Learning library written in C++. Current Version: ML-0.0.8.
+ A Machine Learning library written in C++. Current Version: ML-0.0.9.
+## Version: ML-0.0.9
+ The following changes were made:
+ 1. Implemented two member functions `set_row()` and `set_col()` for setting rows and columns of a matrix respectively.
+ 2. Implemented inverse of a matrix by LU decomposition using the Dolittle algorithm.
 ## Version: ML-0.0.8
  The following changes were made:
  1. Added functions for solving a set of linear equations for upper and lower triangular matrices with back substitution and forward substitution respectively.

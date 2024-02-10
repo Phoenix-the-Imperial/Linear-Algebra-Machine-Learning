@@ -36,6 +36,10 @@ namespace ML
         std::tuple<size_t, size_t> size(void);
         void reserve(const size_t&, const size_t&);
         void resize(const size_t&, const size_t&);
+        matrix<T> get_row(const size_t&) const;
+        matrix<T> get_col(const size_t&) const;
+        void set_row(const size_t&, const matrix<T>&);
+        void set_col(const size_t&, const matrix<T>&);
     };
 
 
@@ -48,7 +52,8 @@ namespace ML
             this->at(i, 0) = v.at(i);
     }
 
-    template <class T> matrix<T>::matrix(std::initializer_list<T> elements, const size_t& num_row, const size_t& num_col)
+    template <class T>
+    matrix<T>::matrix(std::initializer_list<T> elements, const size_t& num_row, const size_t& num_col)
     { 
         this->rows.resize(num_row);
         size_t j = 0, k = 0;
@@ -118,6 +123,40 @@ namespace ML
     T matrix<T>::get_at(const size_t& row, const size_t& col) const
     {
         return this->rows.at(row).at(col);
+    }
+
+    template <class T>
+    matrix<T> matrix<T>::get_row(const size_t& row) const
+    {
+        matrix<T> ret = matrix<T>(1, this->num_cols);
+        for (size_t k = 0; k < this->num_cols; k++)
+            ret.at(0, k) = this->get_at(row, k);
+        return ret;
+    }
+
+    template <class T>
+    matrix<T> matrix<T>::get_col(const size_t& col) const
+    {
+        matrix<T> ret = matrix<T>(this->num_rows, 1);
+        for (size_t j = 0; j < this->num_rows; j++)
+            ret.at(j, 0) = this->get_at(j, col);
+        return ret;
+    }
+
+    template <class T>
+    void matrix<T>::set_row(const size_t& row, const matrix<T>& row_vector)
+    {
+        // Check if the matrix and the row vector are compatible
+        for (size_t k = 0; k < this->num_cols; k++)
+            this->at(row, k) = row_vector.get_at(0, k);
+    }
+
+    template <class T>
+    void matrix<T>::set_col(const size_t& col, const matrix<T>& col_vector)
+    {
+        // Check if the matrix and the row vector are compatible
+        for (size_t j = 0; j < this->num_rows; j++)
+            this->at(j, col) = col_vector.get_at(j, 0);
     }
 
     template <class T>
@@ -359,8 +398,29 @@ namespace ML
         matrix<T> U = std::get<1>(LU_decomposition);
         // Solve L(Ux) = b for (Ux).
         matrix<T> x_intermediate = solve_forward_substitution(L, b);
+        // Solve Ux = b for x.
         matrix<T> x = solve_back_substitution(U, x_intermediate);
         return x;
+    }
+
+    template <class T>
+    matrix<T> LU_inverse(const matrix<T>& A)
+    {
+        size_t r = A.num_row();
+        size_t c = A.num_col();
+        // Check if A is square
+        matrix<T> ret = matrix<T>(r, c);
+        matrix<T> solved_col = matrix<T>(r, 1);
+        matrix<T> identity_col = zeros<T>(r, 1);
+        size_t k;
+        for (k = 0; k < c; k++)
+        {
+            identity_col.at(k, 0) = 1;
+            if (k > 0) identity_col.at(k - 1, 0) = 0;
+            solved_col = LU_solve(A, identity_col);
+            ret.set_col(k, solved_col);
+        }
+        return ret;
     }
 }
 #endif

@@ -58,5 +58,18 @@ int main()
     std::cout << "\n\n" << X;
     auto R_prime = ML::multiply(M, X);
     std::cout << "\n\n" << R_prime;
+    auto T_r = M.get_row(1);
+    auto T_c = M.get_col(1);
+    std::cout << "\n\n" << T_r << "\n\n" << T_c;
+    auto r_vect = ML::matrix<float>({7, -7, 42}, 1, 3);
+    auto c_vect = ML::matrix<float>({15, 72}, 2, 1);
+    O_dot_dot.set_row(1, r_vect);
+    std::cout << "\n\n" << O_dot_dot;
+    O_dot_dot.set_col(0, c_vect);
+    std::cout << "\n\n" << O_dot_dot;
+    auto M_inverse = ML::LU_inverse(M);
+    std::cout << "\n\n" << M_inverse;
+    auto I_check = ML::multiply(M, M_inverse);
+    std::cout << "\n\n" << I_check;
     return 0;
 }
