@@ -212,6 +212,12 @@ namespace ML
     }
 
     template <class T>
+    matrix<T> operator *(const matrix<T>& a, const matrix<T>& b)
+    {
+        return multiply(a, b);
+    }
+
+    template <class T>
     matrix<T> multiply(const matrix<T>& a, const std::vector<T>& v)
     {
         size_t r = a.num_row();
@@ -230,6 +236,12 @@ namespace ML
         return ret;
     }
 
+    template <class T>
+    matrix<T> operator *(const matrix<T>& a, const std::vector<T>& b)
+    {
+        return multiply(a, b);
+    }
+
     template <class U, class T>
     matrix<T> multiply(const U& scalar, const matrix<T>& a)
     {
@@ -242,6 +254,12 @@ namespace ML
             for (k = 0; k < n; k++)
                 ret.at(j, k) = s * a.get_at(j, k);
         return ret;
+    }
+
+    template <class U, class T>
+    matrix<T> operator *(const U& scalar, const matrix<T>& a)
+    {
+        return multiply(scalar, a);
     }
 
     template <class T>
@@ -272,6 +290,12 @@ namespace ML
         return ret;
     }
 
+    template <class T>
+    matrix<T> operator +(const matrix<T>& a, const matrix<T>& b)
+    {
+        return add(a, b);
+    }
+
     template <class U, class T>
     matrix<T> add(const U& scalar, const matrix<T>& a)
     {
@@ -284,6 +308,12 @@ namespace ML
             for (k = 0; k < n; k++)
                 ret.at(j, k) = s + a.get_at(j, k);
         return ret;
+    }
+
+    template <class U, class T>
+    matrix<T> operator +(const U& scalar, const matrix<T>& a)
+    {
+        return add(scalar, a);
     }
 
     template <class T>

@@ -77,5 +77,17 @@ int main()
     std::cout << "\n\n" << MPI;
     auto Matrix_dot = ML::multiply(MPI, Matrix);
     std::cout << "\n\n" << Matrix_dot;
+    auto Matr_1 = ML::matrix<float>({1, 2, 3, 4, 5, 6, 7, 8, 9}, 3, 3);
+    auto Matr_2 = ML::matrix<float>({1, 0, 1, -1, 1, 0, 1, 1, 1}, 3, 3);
+    std::vector<float> vect = {0, 1, -1};
+    auto Matr_mul = Matr_2 * Matr_1;
+    auto Matr_add = Matr_1 + Matr_2;
+    auto Matr_sc_mul = 7 * Matr_2;
+    auto Matr_sc_add = 7 + Matr_1;
+    auto vect_mul = Matr_1 * vect;
+    std::cout << "\n\n" << Matr_1 << "\n\n" << Matr_2 << "\n\n";
+    std::cout << "\n\n" << Matr_mul << "\n\n" << Matr_sc_mul;
+    std::cout << "\n\n" << Matr_add << "\n\n" << Matr_sc_add;
+    std::cout << "\n\n" << vect_mul;
     return 0;
 }

@@ -1,6 +1,8 @@
 # Machine Learning
 ## Description
- A Machine Learning library written in C++. Current Version: ML-0.0.10.
+ A Machine Learning library written in C++. Current Version: ML-0.0.11.
+## Version: ML-0.0.11
+ Created operators for matrix multiplication, matrix addition, matrix-scalar multiplication, matrix-scalar addition and matrix-vector multiplicatiion.
 ## Version: ML-0.0.10
  The following changes were made:
  1. Implemented a function to solve a system of linear equations given the L and U matrices as arguments.
