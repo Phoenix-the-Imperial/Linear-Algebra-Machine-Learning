@@ -89,5 +89,8 @@ int main()
     std::cout << "\n\n" << Matr_mul << "\n\n" << Matr_sc_mul;
     std::cout << "\n\n" << Matr_add << "\n\n" << Matr_sc_add;
     std::cout << "\n\n" << vect_mul;
+    auto had_div = ML::hadamard_division(Matr_2, Matr_1);
+    auto had_div_0 = ML::hadamard_division(Matr_1, Matr_2);
+    std::cout << "\n\n" << had_div << "\n\n" << had_div_0;
     return 0;
 }

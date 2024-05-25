@@ -277,6 +277,21 @@ namespace ML
     }
 
     template <class T>
+    matrix<T> hadamard_division(const matrix<T>& a, const matrix<T>& b)
+    {
+        size_t m = a.num_row();
+        size_t n = a.num_col();
+        // Check if the matrices are compatible
+        matrix<T> ret = matrix<T>(m, n);
+        size_t j, k;
+        for (j = 0; j < m; j++)
+            for (k = 0; k < n; k++)
+                // Check if divisor is non-zero
+                ret.at(j, k) = a.get_at(j, k) / b.get_at(j, k);
+        return ret;
+    }
+
+    template <class T>
     matrix<T> add(const matrix<T>& a, const matrix<T>& b)
     {
         size_t m = a.num_row();
