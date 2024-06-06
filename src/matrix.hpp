@@ -33,7 +33,7 @@ namespace ML
         T get_at(const size_t&, const size_t&) const;
         size_t num_row(void) const;
         size_t num_col(void) const;
-        std::tuple<size_t, size_t> size(void);
+        std::tuple<size_t, size_t> size(void) const;
         void reserve(const size_t&, const size_t&);
         void resize(const size_t&, const size_t&);
         matrix<T> get_row(const size_t&) const;
@@ -107,7 +107,7 @@ namespace ML
     }
 
     template <class T>
-    std::tuple<size_t, size_t> matrix<T>::size(void)
+    std::tuple<size_t, size_t> matrix<T>::size(void) const
     {
         return std::tuple<size_t, size_t>(this->num_row(), this->num_col());
     }
@@ -116,18 +116,23 @@ namespace ML
     T& matrix<T>::at(const size_t& row, const size_t& col)
     {
         // Check if row and col are in range
+        if (row > this->num_rows) throw std::out_of_range("Row value exceeds maximum.");
+        if (col > this->num_cols) throw std::out_of_range("Column value exceeds maximum.");
         return this->rows.at(row).at(col);
     }
 
     template <class T>
     T matrix<T>::get_at(const size_t& row, const size_t& col) const
     {
+        if (row > this->num_rows) throw std::out_of_range("Row value exceeds maximum.");
+        if (col > this->num_cols) throw std::out_of_range("Column value exceeds maximum.");
         return this->rows.at(row).at(col);
     }
 
     template <class T>
     matrix<T> matrix<T>::get_row(const size_t& row) const
     {
+        if (row > this->num_rows) throw std::out_of_range("Row value exceeds maximum.");
         matrix<T> ret = matrix<T>(1, this->num_cols);
         for (size_t k = 0; k < this->num_cols; k++)
             ret.at(0, k) = this->get_at(row, k);
@@ -137,6 +142,7 @@ namespace ML
     template <class T>
     matrix<T> matrix<T>::get_col(const size_t& col) const
     {
+        if (col > this->num_cols) throw std::out_of_range("Column value exceeds maximum.");
         matrix<T> ret = matrix<T>(this->num_rows, 1);
         for (size_t j = 0; j < this->num_rows; j++)
             ret.at(j, 0) = this->get_at(j, col);
@@ -147,6 +153,7 @@ namespace ML
     void matrix<T>::set_row(const size_t& row, const matrix<T>& row_vector)
     {
         // Check if the matrix and the row vector are compatible
+        if (row_vector.num_row() != 1 || row_vector.num_col() != this->num_cols) throw std::range_error("Vector is not compatible to be set as a matrix row.");
         for (size_t k = 0; k < this->num_cols; k++)
             this->at(row, k) = row_vector.get_at(0, k);
     }
@@ -155,6 +162,7 @@ namespace ML
     void matrix<T>::set_col(const size_t& col, const matrix<T>& col_vector)
     {
         // Check if the matrix and the row vector are compatible
+        if (col_vector.num_row() != this->num_rows || col_vector.num_col() != 1) throw std::range_error("Vector is not compatible to be set as a matrix column.");
         for (size_t j = 0; j < this->num_rows; j++)
             this->at(j, col) = col_vector.get_at(j, 0);
     }
@@ -195,6 +203,7 @@ namespace ML
         size_t p = a.num_col();
         size_t c = b.num_col();
         // Check if the matrices are compatible
+        if (a.num_col() != b.num_row()) throw std::range_error("Matrices are not compatible for multiplication.");
         matrix<T> ret = matrix<T>(r, c);
         T sum = (T) 0;
         size_t j, k, l;
@@ -223,6 +232,7 @@ namespace ML
         size_t r = a.num_row();
         size_t c = a.num_col();
         // Check if the matrix and the vector are compatible
+        if (a.num_col() != v.size()) throw std::range_error("Matrix and vector are not compatible for multiplication.");
         matrix<T> ret = matrix<T>(r, 1);
         T sum = (T) 0;
         size_t j, k;
@@ -268,6 +278,7 @@ namespace ML
         size_t m = a.num_row();
         size_t n = a.num_col();
         // Check if the matrices are compatible
+        if (a.size() != b.size()) throw std::range_error("Matrices are not compatible for Hadamard product.");
         matrix<T> ret = matrix<T>(m, n);
         size_t j, k;
         for (j = 0; j < m; j++)
@@ -282,6 +293,7 @@ namespace ML
         size_t m = a.num_row();
         size_t n = a.num_col();
         // Check if the matrices are compatible
+        if (a.size() != b.size()) throw std::range_error("Matrices are not compatible for Hadamard division.");
         matrix<T> ret = matrix<T>(m, n);
         size_t j, k;
         for (j = 0; j < m; j++)
@@ -297,6 +309,7 @@ namespace ML
         size_t m = a.num_row();
         size_t n = a.num_col();
         // Check if the matrices are compatible
+        if (a.size() != b.size()) throw std::range_error("Matrices are not compatible for addition.");
         matrix<T> ret = matrix<T>(m, n);
         size_t j, k;
         for (j = 0; j < m; j++)
@@ -309,6 +322,27 @@ namespace ML
     matrix<T> operator +(const matrix<T>& a, const matrix<T>& b)
     {
         return add(a, b);
+    }
+
+    template <class T>
+    matrix<T> subtract(const matrix<T>& a, const matrix<T>& b)
+    {
+        size_t m = a.num_row();
+        size_t n = a.num_col();
+        // Check if the matrices are compatible
+        if (a.size() != b.size()) throw std::range_error("Matrices are not compatible for subtraction.");
+        matrix<T> ret = matrix<T>(m, n);
+        size_t j, k;
+        for (j = 0; j < m; j++)
+            for (k = 0; k < n; k++)
+                ret.at(j, k) = a.get_at(j, k) - b.get_at(j, k);
+        return ret;
+    }
+
+    template <class T>
+    matrix<T> operator -(const matrix<T>& a, const matrix<T>& b)
+    {
+        return subtract(a, b);
     }
 
     template <class U, class T>
@@ -329,6 +363,26 @@ namespace ML
     matrix<T> operator +(const U& scalar, const matrix<T>& a)
     {
         return add(scalar, a);
+    }
+
+    template <class U, class T>
+    matrix<T> subtract(const U& scalar, const matrix<T>& a)
+    {
+        T s = T(scalar);
+        size_t m = a.num_row();
+        size_t n = a.num_col();
+        matrix<T> ret = matrix<T>(m, n);
+        size_t j, k;
+        for (j = 0; j < m; j++)
+            for (k = 0; k < n; k++)
+                ret.at(j, k) = s - a.get_at(j, k);
+        return ret;
+    }
+
+    template <class U, class T>
+    matrix<T> operator -(const U& scalar, const matrix<T>& a)
+    {
+        return subtract(scalar, a);
     }
 
     template <class T>
@@ -403,6 +457,7 @@ namespace ML
     {
         size_t n = A.num_col();
         // Check if b has same number of rows
+        if (A.num_row() != b.num_row()) throw std::range_error("Matrix and vector have different rows.");
         size_t i, j, k;
         T sum;
         matrix<T> x = matrix<T>(n, 1);
@@ -422,6 +477,7 @@ namespace ML
     {
         size_t n = A.num_col();
         // Check if b has same number of rows
+        if (A.num_row() != b.num_row()) throw std::range_error("Matrix and vector have different rows.");
         size_t j, k;
         T sum;
         matrix<T> x = matrix<T>(n, 1);
@@ -464,6 +520,7 @@ namespace ML
         size_t r = A.num_row();
         size_t c = A.num_col();
         // Check if A is square
+        if (A.num_row() != A.num_col()) throw std::range_error("Matrix is not square and hence can not truly be inverted.");
         matrix<T> ret = matrix<T>(r, c);
         matrix<T> solved_col = matrix<T>(r, 1);
         matrix<T> identity_col = zeros<T>(r, 1);

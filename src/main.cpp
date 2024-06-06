@@ -92,5 +92,62 @@ int main()
     auto had_div = ML::hadamard_division(Matr_2, Matr_1);
     auto had_div_0 = ML::hadamard_division(Matr_1, Matr_2);
     std::cout << "\n\n" << had_div << "\n\n" << had_div_0;
+    /*
+    try
+    {
+        std::cout << had_div.at(5, 0);
+    }
+    catch (std::out_of_range& ex)
+    {
+        std::cerr << "Exception: " << ex.what() << std::endl;
+        return -1;
+    }
+
+    auto wrong_row_matrix = ML::matrix<float>({1, 2}, 1, 2);
+    try
+    {
+        had_div.set_row(0, wrong_row_matrix);
+        std::cout << "\n\n" << had_div;
+    }
+    catch (std::range_error& ex)
+    {
+        std::cerr << "Exception: " << ex.what() << std::endl;
+    }
+
+    auto wrong_col_matrix = ML::matrix<float>({1, 2}, 1, 2);
+    try
+    {
+        had_div.set_col(0, wrong_col_matrix);
+        std::cout << "\n\n" << had_div;
+    }
+    catch (std::range_error& ex)
+    {
+        std::cerr << "Exception: " << ex.what() << std::endl;
+    }
+
+    auto test_matr_1 = ML::matrix<float>({1, 2, 3, 4, 5, 6, 7, 8, 9}, 3, 3);
+    auto test_matr_2_wrong_dim = ML::matrix<float>({1, 2, 3, 4, 5, 6}, 2, 3);
+    try
+    {
+        // auto test_mul = ML::multiply(test_matr_1, test_matr_2_wrong_dim);
+        auto test_mul = test_matr_1 - test_matr_2_wrong_dim;
+        std::cout << "\n\n" << test_mul;
+    }
+    catch (std::range_error& ex)
+    {
+        std::cerr << "Exception: " << ex.what() << std::endl;
+    }
+    */
+    auto identity_matr = ML::matrix<float>({1, 0, 0, 0, 1, 0, 0, 0, 1}, 3, 3);
+    auto test_vector_wrong_dim = ML::matrix<float>({1, 0, -1, 2}, 4, 1);
+    try
+    {
+        auto test_soln = LU_solve(identity_matr, test_vector_wrong_dim);
+        std::cout << test_soln;
+    }
+    catch (std::range_error& ex)
+    {
+        std::cerr << "Exception: " << ex.what() << std::endl;
+    }
     return 0;
 }

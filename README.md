@@ -2,7 +2,7 @@
 
 ## Description
 
- A Machine Learning library written in C++. Current Version: ML-0.0.12.
+ A Machine Learning library written in C++. Current Version: ML-0.0.13.
 
 ## Installation Guidlines
 
@@ -30,8 +30,14 @@
  - [ ] Add algorithms for diagonalization.
  - [ ] Add algorithms for finding the singular value decomposition.
  - [x] Add algorithms for Hadamard division.
+ - [x] Add exception handling.
+ - [ ] Add a custom exception class.
 
 # Version History
+
+## Version: ML-0.0.13
+
+ Created subtraction operations for matrix-matrix and matrix-scaler cases. Added very basic exception handling to all of the necessary cases currently present.
 
 ## Version: ML-0.0.12
 

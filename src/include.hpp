@@ -5,6 +5,7 @@
 #include <complex>
 #include <initializer_list>
 #include <tuple>
+#include <exception>
 // #include <stdexcept>
 
 #endif
