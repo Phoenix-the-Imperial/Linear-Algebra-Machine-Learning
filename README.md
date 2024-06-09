@@ -2,7 +2,7 @@
 
 ## Description
 
- A Machine Learning library written in C++. Current Version: ML-0.0.13.
+ A Machine Learning library written in C++. Current Version: ML-0.0.14.
 
 ## Installation Guidlines
 
@@ -21,6 +21,8 @@
 
 ## Check-list of Upcoming Features
 
+ - [x] Add algorithms for Hadamard division.
+ - [x] Add exception handling.
  - [ ] Add functionality for building the library and release.
  - [ ] Add some statistical functions.
  - [ ] Add Gaussian elimination with scaled partial pivoting.
@@ -29,11 +31,13 @@
  - [ ] Add algorithms for finding eigenvalues and eigenvectors.
  - [ ] Add algorithms for diagonalization.
  - [ ] Add algorithms for finding the singular value decomposition.
- - [x] Add algorithms for Hadamard division.
- - [x] Add exception handling.
+ - [ ] Add a function implementing the Gram-Schmidt orthogonalization procedure for finite number of vectors.
  - [ ] Add a custom exception class.
 
 # Version History
+
+## Version: ML-0.0.14
+ Created a function for the entry-wise matrix $L_{p, q}$ norm along with an overload for the case when $p = q$.
 
 ## Version: ML-0.0.13
 

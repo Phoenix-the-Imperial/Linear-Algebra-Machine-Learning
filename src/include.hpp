@@ -6,6 +6,7 @@
 #include <initializer_list>
 #include <tuple>
 #include <exception>
+#include <cmath>
 // #include <stdexcept>
 
 #endif

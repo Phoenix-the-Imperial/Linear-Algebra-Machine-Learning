@@ -138,6 +138,7 @@ int main()
         std::cerr << "Exception: " << ex.what() << std::endl;
     }
     */
+    /*
     auto identity_matr = ML::matrix<float>({1, 0, 0, 0, 1, 0, 0, 0, 1}, 3, 3);
     auto test_vector_wrong_dim = ML::matrix<float>({1, 0, -1, 2}, 4, 1);
     try
@@ -149,5 +150,11 @@ int main()
     {
         std::cerr << "Exception: " << ex.what() << std::endl;
     }
+    */
+    auto norm_test_matrix = ML::matrix<float>({1, 2, 3, 1, 2, 3}, 3, 2);
+    auto norm_res = ML::L_p_q_norm(norm_test_matrix, 2, 3);
+    auto norm_res_second = ML::L_p_q_norm(norm_test_matrix, 2);
+    std::cout << "\n\n" << norm_res;
+    std::cout << "\n\n" << norm_res_second << std::endl;
     return 0;
 }

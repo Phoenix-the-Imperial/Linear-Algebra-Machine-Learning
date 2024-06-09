@@ -422,6 +422,36 @@ namespace ML
     }
 
     template <class T>
+    T L_p_q_norm(const matrix<T>& v, const size_t& p, const size_t& q)
+    {
+        T total_sum = 0, row_sum;
+        size_t m = v.num_row();
+        size_t n = v.num_col();
+        size_t j, k;
+        float q_by_p = float(q) / float(p);
+        for (k = 0; k < n; k++)
+        {
+            row_sum = 0;
+            for (j = 0; j < m; j++)
+                row_sum += pow(abs(v.get_at(j, k)), p);
+            total_sum += pow(row_sum, q_by_p);
+        }
+        return pow(total_sum, 1 / float(q));
+    }
+
+    template <class T>
+    T L_p_q_norm(const matrix<T>& v, const size_t& p)
+    {
+        T total_sum = 0;
+        size_t m = v.num_row();
+        size_t n = v.num_col();
+        size_t j, k;
+        for (k = 0; k < n; k++)
+            for (j = 0; j < m; j++)
+                total_sum += pow(abs(v.get_at(j, k)), p);
+        return pow(total_sum, 1 / float(p));
+    }
+    template <class T>
     std::tuple<matrix<T>, matrix<T>> LU_Doolittle(const matrix<T>& A)
     {
         // Check if the argument matrix is diagonal
