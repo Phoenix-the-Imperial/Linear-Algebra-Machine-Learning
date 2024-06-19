@@ -2,7 +2,7 @@
 
 ## Description
 
- A Machine Learning library written in C++. Current Version: ML-0.0.14.
+ A Machine Learning library written in C++. Current Version: ML-0.0.15.
 
 ## Installation Guidlines
 
@@ -33,10 +33,17 @@
  - [ ] Add algorithms for finding the singular value decomposition.
  - [ ] Add a function implementing the Gram-Schmidt orthogonalization procedure for finite number of vectors.
  - [ ] Add a custom exception class.
+ - [ ] Replace `size_t` with better/variable types.
+ - [ ] Reorganize the codes into header files.
 
 # Version History
 
+## Version: ML-0.0.15
+
+ Created a (possibly buggy) function to compute the spectral radius of a matrix.
+
 ## Version: ML-0.0.14
+
  Created a function for the entry-wise matrix $L_{p, q}$ norm along with an overload for the case when $p = q$.
 
 ## Version: ML-0.0.13

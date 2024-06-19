@@ -156,5 +156,11 @@ int main()
     auto norm_res_second = ML::L_p_q_norm(norm_test_matrix, 2);
     std::cout << "\n\n" << norm_res;
     std::cout << "\n\n" << norm_res_second << std::endl;
+    auto the_identity_matrix = ML::matrix<float>({1, 0, 0, 0, 1, 0, 0, 0, 1}, 3, 3);
+    auto spec_rad = ML::spectral_radius(the_identity_matrix, 0.01f, 100, 7);
+    std:: cout << spec_rad << std::endl;
+    auto test_spec_rad_matrix = ML::matrix<float>({1, 0.5, 4, 3, 5.5, 3.14, -1, -89, 0.01}, 3, 3);
+    auto spec_rad_2 = ML::spectral_radius(test_spec_rad_matrix, 0.001f, 1000, 7);
+    std::cout << spec_rad_2 << std::endl;
     return 0;
 }

@@ -1,7 +1,7 @@
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
 
-#include <include.hpp>
+#include <random.hpp>
 
 namespace ML
 {
@@ -40,6 +40,7 @@ namespace ML
         matrix<T> get_col(const size_t&) const;
         void set_row(const size_t&, const matrix<T>&);
         void set_col(const size_t&, const matrix<T>&);
+        void set_at(const size_t&, const size_t&, const T&);
     };
 
 
@@ -165,6 +166,15 @@ namespace ML
         if (col_vector.num_row() != this->num_rows || col_vector.num_col() != 1) throw std::range_error("Vector is not compatible to be set as a matrix column.");
         for (size_t j = 0; j < this->num_rows; j++)
             this->at(j, col) = col_vector.get_at(j, 0);
+    }
+
+    template <class T>
+    void matrix<T>::set_at(const size_t& row, const size_t& col, const T& elem)
+    {
+        // Check if the rows and columns are in range
+        if (row >= this->num_rows) throw std::range_error("Row value exceeds maximum.");
+        if (col >= this->num_cols) throw std::range_error("Column value exceeds maximum.");
+        this->at(row, col) = elem;
     }
 
     template <class T>
@@ -422,6 +432,13 @@ namespace ML
     }
 
     template <class T>
+    T scaler(const matrix<T>& m)
+    {
+        if (m.num_row() != 1 || m.num_col() != 1) throw std::invalid_argument("Matrix does not have exactly one entry.");
+        return m.get_at(0, 0);
+    }
+
+    template <class T>
     T L_p_q_norm(const matrix<T>& v, const size_t& p, const size_t& q)
     {
         T total_sum = 0, row_sum;
@@ -433,7 +450,7 @@ namespace ML
         {
             row_sum = 0;
             for (j = 0; j < m; j++)
-                row_sum += pow(abs(v.get_at(j, k)), p);
+                row_sum += pow(fabs(v.get_at(j, k)), p);
             total_sum += pow(row_sum, q_by_p);
         }
         return pow(total_sum, 1 / float(q));
@@ -448,7 +465,7 @@ namespace ML
         size_t j, k;
         for (k = 0; k < n; k++)
             for (j = 0; j < m; j++)
-                total_sum += pow(abs(v.get_at(j, k)), p);
+                total_sum += pow(fabs(v.get_at(j, k)), p);
         return pow(total_sum, 1 / float(p));
     }
     template <class T>
@@ -574,6 +591,51 @@ namespace ML
     matrix<T> pseudo_inverse(const matrix<T>& A)
     {
         return multiply(LU_inverse(multiply(transpose(A), A)), transpose(A));
+    }
+
+    template <class T>
+    T spectral_radius(const matrix<T>& A, const T& tolerance, size_t max_num_iterations, uint32_t seed)
+    {
+        size_t n = A.num_col();
+        if (n != A.num_row()) throw std::invalid_argument("Cannot compute the spectral radius of a non-square matrix.");
+        size_t j;
+        matrix<T> b = matrix<T>(n, 1);
+        matrix<T> b_next = matrix<T>(n, 1);
+        T rho, rho_next;
+        bool num_iter_exceeded = false;
+        set_rng_seed(seed);
+        std::uniform_real_distribution<T> unif_rng(0.0, 1.0);
+        for (j = 0; j < n; j++)
+            b.at(j, 0) = unif_rng(rng);
+        T current_error = -1;
+
+        b_next = A * b;
+        b_next = (T(1) / L_p_q_norm(b_next, 2)) * b_next;
+        rho = scaler(transpose(b) * b_next) / scaler(transpose(b) * b);
+        b = b_next;
+
+        j = 0;
+        while (current_error < 0 || current_error >= tolerance)
+        {
+            if (j > max_num_iterations)
+            {
+                num_iter_exceeded = true;
+                break;
+            }
+            b_next = A * b;
+            b_next = (T(1) / L_p_q_norm(b_next, 2)) * b_next;
+            rho_next = scaler(transpose(b) * b_next) / scaler(transpose(b) * b);
+            current_error = fabs(rho_next - rho);
+            b = b_next;
+            rho = rho_next;
+            j++;
+
+            std::cout << "Iteration " << j << " of " << max_num_iterations << ":\t\trho = " << rho << ",\trho_next = " << rho_next << ",\tcurrent_error: " << current_error << "\n";
+        }
+        if (num_iter_exceeded) std::cerr << "Maximum number of iterations exceeded!" << std::endl;
+        else std::cout << "--- Convergence achieved! ---\n";
+        std::cout << "Number of iterations: " << j << ",\tFinal error: " << current_error << std::endl;
+        return rho_next;
     }
 }
 #endif
