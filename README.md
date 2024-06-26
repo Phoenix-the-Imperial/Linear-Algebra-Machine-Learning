@@ -3,6 +3,7 @@
 ## Description
 
  A Linear Algebra and Machine Learning library written in C++. Current Version: ML-0.0.15.
+ Name: Rishav Chakraborty, Roll No.: 21EE30034, IIT Kharagpur.
 
 ## Installation Guidlines
 
