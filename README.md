@@ -2,13 +2,13 @@
 
 ## Description
 
- A Machine Learning library written in C++. Current Version: ML-0.0.15.
+ A Linear Algebra and Machine Learning library written in C++. Current Version: ML-0.0.15.
 
 ## Installation Guidlines
 
  1. Clone the Git repository inside the target folder as follows:
  ```shell
- git clone https://github.com/Phoenix-the-Imperial/Machine-Learning.git
+ git clone https://github.com/Phoenix-the-Imperial/Linear-Algebra-Machine-Learning.git
  ```
  2. Build the test executable by running
  ```shell
